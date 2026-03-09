@@ -181,5 +181,6 @@ export function useBookingState() {
     canExtend,
     extensionAvailable,
     switchGroupSize,
+    goBack,
   };
 }
