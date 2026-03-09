@@ -31,6 +31,8 @@ export interface BookingState {
 export function useBookingState() {
   const freeSlot = getCurrentFreeSlot(USER_SCHEDULE);
 
+  const [screenHistory, setScreenHistory] = useState<BookingScreen[]>([]);
+
   const [state, setState] = useState<BookingState>({
     screen: "who-coming",
     groupSize: null,
