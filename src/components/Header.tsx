@@ -7,7 +7,7 @@ interface HeaderProps {
 const Header = ({ onBack }: HeaderProps) => {
   return (
     <header className="bg-primary px-4 py-3 flex items-center justify-between">
-      <div className="w-20 h-20 flex items-center justify-start">
+      <div className="w-[60px] h-[60px] flex items-center justify-start">
         {onBack ? (
           <button onClick={onBack} className="text-primary-foreground p-1" aria-label="Go back">
             <ArrowLeft size={24} />
