@@ -62,9 +62,25 @@ export function useBookingState() {
     [freeSlot]
   );
 
-  const reserve = useCallback(() => {
-    setState((s) => ({ ...s, screen: "reserved" }));
+  const navigateTo = useCallback((screen: BookingScreen, updates: Partial<BookingState> = {}) => {
+    setState((s) => {
+      setScreenHistory((h) => [...h, s.screen]);
+      return { ...s, ...updates, screen };
+    });
   }, []);
+
+  const goBack = useCallback(() => {
+    setScreenHistory((h) => {
+      if (h.length === 0) return h;
+      const prev = h[h.length - 1];
+      setState((s) => ({ ...s, screen: prev }));
+      return h.slice(0, -1);
+    });
+  }, []);
+
+  const reserve = useCallback(() => {
+    navigateTo("reserved");
+  }, [navigateTo]);
 
   const checkIn = useCallback(() => {
     setState((s) => ({ ...s, screen: "checked-in", isCheckedIn: true }));
