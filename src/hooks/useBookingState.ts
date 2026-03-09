@@ -48,20 +48,54 @@ export function useBookingState() {
 
   const selectGroupSize = useCallback(
     (size: GroupSize) => {
-      if (!freeSlot) return;
-      const duration = size === "solo" ? 30 : 60;
-      const end = new Date(freeSlot.start.getTime() + duration * 60 * 1000);
-      const slotEnd = end > freeSlot.end ? freeSlot.end : end;
-      const slot: TimeSlot = { start: freeSlot.start, end: slotEnd };
-      const room = findAvailableRoom(ROOMS, size, slot);
       setState((s) => ({
         ...s,
         groupSize: size,
+        whenChoice: null,
+        selectedRoom: null,
+        reservationSlot: null,
+      }));
+    },
+    []
+  );
+
+  const selectWhen = useCallback(
+    (when: "now" | "later") => {
+      if (when === "now" && freeSlot && state.groupSize) {
+        const duration = state.groupSize === "solo" ? 30 : 60;
+        const end = new Date(freeSlot.start.getTime() + duration * 60 * 1000);
+        const slotEnd = end > freeSlot.end ? freeSlot.end : end;
+        const slot: TimeSlot = { start: freeSlot.start, end: slotEnd };
+        const room = findAvailableRoom(ROOMS, state.groupSize, slot);
+        setState((s) => ({
+          ...s,
+          whenChoice: "now",
+          selectedRoom: room,
+          reservationSlot: slot,
+        }));
+      } else {
+        setState((s) => ({
+          ...s,
+          whenChoice: "later",
+          selectedRoom: null,
+          reservationSlot: null,
+        }));
+      }
+    },
+    [freeSlot, state.groupSize]
+  );
+
+  const selectLaterSlot = useCallback(
+    (slot: TimeSlot) => {
+      if (!state.groupSize) return;
+      const room = findAvailableRoom(ROOMS, state.groupSize, slot);
+      setState((s) => ({
+        ...s,
         selectedRoom: room,
         reservationSlot: slot,
       }));
     },
-    [freeSlot]
+    [state.groupSize]
   );
 
   const navigateTo = useCallback((screen: BookingScreen, updates: Partial<BookingState> = {}) => {
