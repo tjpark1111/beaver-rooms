@@ -16,7 +16,7 @@ const Header = ({ onBack }: HeaderProps) => {
           <img
             src="/images/beaver-logo.png"
             alt="Beaver Logo"
-            className="h-20 w-20 object-contain"
+            className="h-[60px] w-[60px] object-contain"
           />
         )}
       </div>
