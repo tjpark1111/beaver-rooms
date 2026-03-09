@@ -91,15 +91,11 @@ function roundUpToQuarterHourEDT(): Date {
   return result;
 }
 
-export function getCurrentFreeSlot(schedule: CalendarEvent[]): TimeSlot | null {
-  const slots = findFreeSlots(schedule);
+export function getCurrentFreeSlot(_schedule: CalendarEvent[]): TimeSlot | null {
   const nowRounded = roundUpToQuarterHourEDT();
-  // Find a free slot that contains or starts after the rounded current time
-  const slot = slots.find(s => s.end.getTime() > nowRounded.getTime());
-  if (!slot) return null;
-  // Clamp start to the rounded current time if it's earlier
-  const clampedStart = slot.start.getTime() < nowRounded.getTime() ? nowRounded : slot.start;
-  return { start: clampedStart, end: slot.end };
+  // No building hours — allow reservations 24/7, extending 24h from now
+  const farEnd = new Date(nowRounded.getTime() + 24 * 60 * 60 * 1000);
+  return { start: nowRounded, end: farEnd };
 }
 
 export type GroupSize = "solo" | "small-group" | "large-group";
