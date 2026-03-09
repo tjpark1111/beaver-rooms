@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { formatTime } from "@/lib/dummyData";
+import { Timer } from "lucide-react";
 import type { Room, TimeSlot, GroupSize } from "@/lib/dummyData";
 
 interface TimesUpScreenProps {
@@ -28,7 +29,9 @@ const TimesUpScreen = ({
 
   return (
     <div className="flex flex-col items-center px-6 pt-10">
-      <h2 className="text-2xl font-bold text-foreground">Need more time?</h2>
+      <Timer size={64} className="text-destructive mb-2" />
+      <h2 className="text-2xl font-bold text-foreground mb-6">Time's Up</h2>
+      <h3 className="text-xl font-bold text-foreground">Need more time?</h3>
 
       {canExtend && extensionAvailable ? (
         <Button
