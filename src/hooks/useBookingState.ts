@@ -165,6 +165,7 @@ export function useBookingState() {
       ...s,
       screen: "who-coming",
       groupSize: null,
+      whenChoice: null,
       selectedRoom: null,
       reservationSlot: null,
       isCheckedIn: false,
