@@ -17,11 +17,28 @@ const ReservedScreen = ({ room, slot, isLater, onCheckIn, onReportOccupied }: Re
 
   useEffect(() => {
     if (!isLater) return;
-    const interval = setInterval(() => setNow(new Date()), 10000);
+    const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, [isLater]);
 
   const checkInDisabled = isLater && now < slot.start;
+
+  const formatCountdown = (ms: number) => {
+    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    
+    if (hours > 0) {
+      return `${hours}h ${minutes}m ${seconds}s`;
+    } else if (minutes > 0) {
+      return `${minutes}m ${seconds}s`;
+    }
+    return `${seconds}s`;
+  };
+
+  const timeUntilCheckIn = slot.start.getTime() - now.getTime();
+
   return (
     <div className="flex flex-col items-center px-6 pt-10">
       <div className="bg-card rounded-2xl shadow-md p-6 w-full max-w-xs text-center">
@@ -47,6 +64,12 @@ const ReservedScreen = ({ room, slot, isLater, onCheckIn, onReportOccupied }: Re
       >
         Check In
       </Button>
+
+      {checkInDisabled && (
+        <p className="text-sm text-muted-foreground mt-2 text-center">
+          Check-in available in <span className="font-semibold text-foreground">{formatCountdown(timeUntilCheckIn)}</span>
+        </p>
+      )}
 
       <p className="text-xs text-muted-foreground mt-2 text-center max-w-xs">
         You must check in within 15 minutes of your reservation start time or your reservation will be cancelled.
