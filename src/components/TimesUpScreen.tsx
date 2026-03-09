@@ -101,14 +101,6 @@ const TimesUpScreen = ({
               variant="outline"
               size="lg"
               className="w-full h-12 rounded-xl"
-              onClick={() => onSwitchGroupSize("small-group")}
-            >
-              Switch to Group: 2-4
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full h-12 rounded-xl"
               onClick={() => onSwitchGroupSize("large-group")}
             >
               Switch to Group: 5-8
