@@ -54,7 +54,7 @@ export const ROOMS: Room[] = [
 export function findFreeSlots(schedule: CalendarEvent[]): TimeSlot[] {
   const sorted = [...schedule].sort((a, b) => a.start.getTime() - b.start.getTime());
   const slots: TimeSlot[] = [];
-  const dayStart = h(8, 0);
+  const dayStart = h(0, 0);
   const dayEnd = h(23, 59);
 
   let cursor = dayStart;
