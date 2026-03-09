@@ -1,17 +1,31 @@
 import { Button } from "@/components/ui/button";
-import { GroupSize, formatTimeRange, formatTime } from "@/lib/dummyData";
+import { GroupSize, formatTimeRange, generateLaterSlots } from "@/lib/dummyData";
 import type { Room, TimeSlot } from "@/lib/dummyData";
 import { ChevronDown } from "lucide-react";
 
 interface WhoComingProps {
   onSelect: (size: GroupSize) => void;
+  onSelectWhen: (when: "now" | "later") => void;
+  onSelectLaterSlot: (slot: TimeSlot) => void;
   onReserve: () => void;
   selectedSize: GroupSize | null;
+  whenChoice: "now" | "later" | null;
   selectedRoom: Room | null;
   reservationSlot: TimeSlot | null;
 }
 
-const WhoComing = ({ onSelect, onReserve, selectedSize, selectedRoom, reservationSlot }: WhoComingProps) => {
+const WhoComing = ({
+  onSelect,
+  onSelectWhen,
+  onSelectLaterSlot,
+  onReserve,
+  selectedSize,
+  whenChoice,
+  selectedRoom,
+  reservationSlot,
+}: WhoComingProps) => {
+  const laterSlots = selectedSize ? generateLaterSlots(selectedSize) : [];
+
   return (
     <div className="flex flex-col items-center px-6 pt-8">
       <img
@@ -48,7 +62,34 @@ const WhoComing = ({ onSelect, onReserve, selectedSize, selectedRoom, reservatio
         </Button>
       </div>
 
-      {selectedSize && selectedRoom && reservationSlot && (
+      {/* When? step */}
+      {selectedSize && (
+        <div className="flex flex-col items-center mt-6 animate-in fade-in slide-in-from-top-2 duration-300 w-full max-w-xs">
+          <ChevronDown className="h-8 w-8 text-accent-foreground mb-2" />
+          <h2 className="text-2xl font-bold text-foreground mb-4">When?</h2>
+          <div className="flex gap-3 w-full">
+            <Button
+              variant="brand"
+              size="lg"
+              className={`flex-1 h-14 rounded-xl text-lg ${whenChoice === "now" ? "ring-2 ring-offset-2 ring-primary" : ""}`}
+              onClick={() => onSelectWhen("now")}
+            >
+              Now
+            </Button>
+            <Button
+              variant="brand"
+              size="lg"
+              className={`flex-1 h-14 rounded-xl text-lg ${whenChoice === "later" ? "ring-2 ring-offset-2 ring-primary" : ""}`}
+              onClick={() => onSelectWhen("later")}
+            >
+              Later
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* "Now" result */}
+      {whenChoice === "now" && selectedRoom && reservationSlot && (
         <div className="flex flex-col items-center mt-6 animate-in fade-in slide-in-from-top-2 duration-300">
           <ChevronDown className="h-8 w-8 text-accent-foreground mb-2" />
           <p className="text-xl font-semibold text-foreground">
@@ -66,6 +107,53 @@ const WhoComing = ({ onSelect, onReserve, selectedSize, selectedRoom, reservatio
           >
             Reserve
           </Button>
+        </div>
+      )}
+
+      {/* "Later" time slot picker */}
+      {whenChoice === "later" && (
+        <div className="flex flex-col items-center mt-6 animate-in fade-in slide-in-from-top-2 duration-300 w-full max-w-xs">
+          <ChevronDown className="h-8 w-8 text-accent-foreground mb-2" />
+          <h3 className="text-lg font-semibold text-foreground mb-3">Pick a time slot</h3>
+          <div className="grid grid-cols-2 gap-2 w-full max-h-64 overflow-y-auto">
+            {laterSlots.map((slot, i) => (
+              <Button
+                key={i}
+                variant="brand"
+                size="sm"
+                className={`rounded-xl text-sm h-10 ${
+                  reservationSlot &&
+                  slot.start.getTime() === reservationSlot.start.getTime()
+                    ? "ring-2 ring-offset-2 ring-primary"
+                    : ""
+                }`}
+                onClick={() => onSelectLaterSlot(slot)}
+              >
+                {formatTimeRange(slot.start, slot.end)}
+              </Button>
+            ))}
+          </div>
+
+          {/* Show room once a later slot is selected */}
+          {selectedRoom && reservationSlot && (
+            <div className="flex flex-col items-center mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+              <p className="text-xl font-semibold text-foreground">
+                {selectedRoom.building}-{selectedRoom.number}{" "}
+                <span className="font-normal text-muted-foreground">is open</span>
+              </p>
+              <p className="text-lg text-muted-foreground mt-1">
+                {formatTimeRange(reservationSlot.start, reservationSlot.end)}
+              </p>
+              <Button
+                variant="brand"
+                size="lg"
+                className="mt-4 w-48 h-14 rounded-xl text-lg"
+                onClick={onReserve}
+              >
+                Reserve
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>

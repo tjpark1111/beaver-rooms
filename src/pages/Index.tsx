@@ -33,8 +33,11 @@ const Index = () => {
         {state.screen === "who-coming" && (
           <WhoComing
             onSelect={selectGroupSize}
+            onSelectWhen={selectWhen}
+            onSelectLaterSlot={selectLaterSlot}
             onReserve={reserve}
             selectedSize={state.groupSize}
+            whenChoice={state.whenChoice}
             selectedRoom={state.selectedRoom}
             reservationSlot={state.reservationSlot}
           />
