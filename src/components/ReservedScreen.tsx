@@ -11,7 +11,7 @@ interface ReservedScreenProps {
   onReportOccupied: () => void;
 }
 
-const ReservedScreen = ({ room, slot, onCheckIn, onReportOccupied }: ReservedScreenProps) => {
+const ReservedScreen = ({ room, slot, isLater, onCheckIn, onReportOccupied }: ReservedScreenProps) => {
   return (
     <div className="flex flex-col items-center px-6 pt-10">
       <div className="bg-card rounded-2xl shadow-md p-6 w-full max-w-xs text-center">
