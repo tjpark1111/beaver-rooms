@@ -10,6 +10,8 @@ const Index = () => {
   const {
     state,
     selectGroupSize,
+    selectWhen,
+    selectLaterSlot,
     reserve,
     checkIn,
     timesUp,
