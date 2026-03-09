@@ -70,13 +70,36 @@ export function findFreeSlots(schedule: CalendarEvent[]): TimeSlot[] {
   return slots;
 }
 
+function roundUpToQuarterHourEDT(): Date {
+  // Get current time in EDT (UTC-4)
+  const now = new Date();
+  const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+  const edtMs = utcMs - 4 * 3600000;
+  const edt = new Date(edtMs);
+
+  const mins = edt.getMinutes();
+  const remainder = mins % 15;
+  if (remainder !== 0 || edt.getSeconds() > 0 || edt.getMilliseconds() > 0) {
+    edt.setMinutes(mins + (15 - remainder), 0, 0);
+  } else {
+    edt.setSeconds(0, 0);
+  }
+
+  // Map back to a "today" Date using the EDT hours/minutes
+  const result = new Date(today);
+  result.setHours(edt.getHours(), edt.getMinutes(), 0, 0);
+  return result;
+}
+
 export function getCurrentFreeSlot(schedule: CalendarEvent[]): TimeSlot | null {
-  // For demo, return a simulated "current" free slot
   const slots = findFreeSlots(schedule);
-  // Return the slot around 2:45 PM for the demo
-  const demoTime = h(14, 45);
-  const slot = slots.find(s => s.start.getTime() <= demoTime.getTime() && s.end.getTime() > demoTime.getTime());
-  return slot || slots[0] || null;
+  const nowRounded = roundUpToQuarterHourEDT();
+  // Find a free slot that contains or starts after the rounded current time
+  const slot = slots.find(s => s.end.getTime() > nowRounded.getTime());
+  if (!slot) return null;
+  // Clamp start to the rounded current time if it's earlier
+  const clampedStart = slot.start.getTime() < nowRounded.getTime() ? nowRounded : slot.start;
+  return { start: clampedStart, end: slot.end };
 }
 
 export type GroupSize = "solo" | "small-group" | "large-group";
