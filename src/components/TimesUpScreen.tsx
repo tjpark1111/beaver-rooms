@@ -108,6 +108,32 @@ const TimesUpScreen = ({
           </div>
         </div>
       )}
+
+      {groupSize === "large-group" && (
+        <div className="mt-8 w-full max-w-xs text-center">
+          <p className="text-base font-semibold text-foreground mb-3">
+            Need a different room?
+          </p>
+          <div className="flex flex-col gap-3">
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full h-12 rounded-xl"
+              onClick={() => onSwitchGroupSize("solo")}
+            >
+              Switch to Solo Room
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full h-12 rounded-xl"
+              onClick={() => onSwitchGroupSize("small-group")}
+            >
+              Switch to Group: 2-4
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
