@@ -55,7 +55,7 @@ export function findFreeSlots(schedule: CalendarEvent[]): TimeSlot[] {
   const sorted = [...schedule].sort((a, b) => a.start.getTime() - b.start.getTime());
   const slots: TimeSlot[] = [];
   const dayStart = h(0, 0);
-  const dayEnd = h(23, 59);
+  const dayEnd = h(24, 0);
 
   let cursor = dayStart;
   for (const event of sorted) {
