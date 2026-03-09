@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { formatTimeRange } from "@/lib/dummyData";
 import type { Room, TimeSlot } from "@/lib/dummyData";
@@ -12,6 +13,15 @@ interface ReservedScreenProps {
 }
 
 const ReservedScreen = ({ room, slot, isLater, onCheckIn, onReportOccupied }: ReservedScreenProps) => {
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    if (!isLater) return;
+    const interval = setInterval(() => setNow(new Date()), 10000);
+    return () => clearInterval(interval);
+  }, [isLater]);
+
+  const checkInDisabled = isLater && now < slot.start;
   return (
     <div className="flex flex-col items-center px-6 pt-10">
       <div className="bg-card rounded-2xl shadow-md p-6 w-full max-w-xs text-center">
@@ -33,6 +43,7 @@ const ReservedScreen = ({ room, slot, isLater, onCheckIn, onReportOccupied }: Re
         size="lg"
         className="mt-6 w-48 h-14 rounded-xl text-lg"
         onClick={onCheckIn}
+        disabled={checkInDisabled}
       >
         Check In
       </Button>
