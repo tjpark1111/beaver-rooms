@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { formatTimeRange } from "@/lib/dummyData";
 import type { Room, TimeSlot } from "@/lib/dummyData";
