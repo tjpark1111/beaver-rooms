@@ -20,6 +20,7 @@ export type BookingScreen =
 export interface BookingState {
   screen: BookingScreen;
   groupSize: GroupSize | null;
+  whenChoice: "now" | "later" | null;
   selectedRoom: Room | null;
   currentSlot: TimeSlot | null;
   reservationSlot: TimeSlot | null;
