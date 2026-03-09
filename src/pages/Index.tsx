@@ -25,7 +25,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col max-w-md mx-auto">
-      <Header onBack={state.screen !== "who-coming" ? goBack : undefined} isHome={state.screen === "who-coming"} />
+      <Header onBack={state.screen !== "who-coming" ? goBack : undefined} />
 
       <main className="flex-1 pb-10">
         {state.screen === "who-coming" && (
