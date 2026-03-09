@@ -6,6 +6,7 @@ import { Clock, MapPin } from "lucide-react";
 interface ReservedScreenProps {
   room: Room;
   slot: TimeSlot;
+  isLater: boolean;
   onCheckIn: () => void;
   onReportOccupied: () => void;
 }
