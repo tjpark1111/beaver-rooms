@@ -89,8 +89,8 @@ function roundUpToQuarterHourEDT(): Date {
   const result = new Date(today);
   result.setHours(edt.getHours(), edt.getMinutes(), 0, 0);
   // If rounding crossed midnight, the result is in the past — advance to tomorrow
-  const now = new Date();
-  if (result.getTime() < now.getTime() - 60000) {
+  const current = new Date();
+  if (result.getTime() < current.getTime() - 60000) {
     result.setDate(result.getDate() + 1);
   }
   return result;
