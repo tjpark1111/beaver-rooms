@@ -13,7 +13,15 @@ interface ReservedScreenProps {
 }
 
 const ReservedScreen = ({ room, slot, isLater, onCheckIn, onReportOccupied }: ReservedScreenProps) => {
-  return (
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    if (!isLater) return;
+    const interval = setInterval(() => setNow(new Date()), 10000);
+    return () => clearInterval(interval);
+  }, [isLater]);
+
+  const checkInDisabled = isLater && now < slot.start;
     <div className="flex flex-col items-center px-6 pt-10">
       <div className="bg-card rounded-2xl shadow-md p-6 w-full max-w-xs text-center">
         <MapPin className="h-8 w-8 text-primary mx-auto mb-2" />
