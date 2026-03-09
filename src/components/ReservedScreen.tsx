@@ -24,7 +24,7 @@ const ReservedScreen = ({ room, slot, isLater, onCheckIn, onReportOccupied }: Re
           <span className="text-base">{formatTimeRange(slot.start, slot.end)}</span>
         </div>
         <p className="text-sm text-muted-foreground mt-3">
-          Reserved — head to the room now
+          {isLater ? "Reserved — remember to check in later when you enter your room" : "Reserved — head to the room now"}
         </p>
       </div>
 
