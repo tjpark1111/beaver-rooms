@@ -20,11 +20,12 @@ const Index = () => {
     canExtend,
     extensionAvailable,
     switchGroupSize,
+    goBack,
   } = useBookingState();
 
   return (
     <div className="min-h-screen bg-background flex flex-col max-w-md mx-auto">
-      <Header />
+      <Header onBack={state.screen !== "who-coming" ? goBack : undefined} />
 
       <main className="flex-1 pb-10">
         {state.screen === "who-coming" && (

@@ -31,6 +31,8 @@ export interface BookingState {
 export function useBookingState() {
   const freeSlot = getCurrentFreeSlot(USER_SCHEDULE);
 
+  const [screenHistory, setScreenHistory] = useState<BookingScreen[]>([]);
+
   const [state, setState] = useState<BookingState>({
     screen: "who-coming",
     groupSize: null,
@@ -60,17 +62,33 @@ export function useBookingState() {
     [freeSlot]
   );
 
-  const reserve = useCallback(() => {
-    setState((s) => ({ ...s, screen: "reserved" }));
+  const navigateTo = useCallback((screen: BookingScreen, updates: Partial<BookingState> = {}) => {
+    setState((s) => {
+      setScreenHistory((h) => [...h, s.screen]);
+      return { ...s, ...updates, screen };
+    });
   }, []);
+
+  const goBack = useCallback(() => {
+    setScreenHistory((h) => {
+      if (h.length === 0) return h;
+      const prev = h[h.length - 1];
+      setState((s) => ({ ...s, screen: prev }));
+      return h.slice(0, -1);
+    });
+  }, []);
+
+  const reserve = useCallback(() => {
+    navigateTo("reserved");
+  }, [navigateTo]);
 
   const checkIn = useCallback(() => {
-    setState((s) => ({ ...s, screen: "checked-in", isCheckedIn: true }));
-  }, []);
+    navigateTo("checked-in", { isCheckedIn: true });
+  }, [navigateTo]);
 
   const timesUp = useCallback(() => {
-    setState((s) => ({ ...s, screen: "times-up" }));
-  }, []);
+    navigateTo("times-up");
+  }, [navigateTo]);
 
   const extend = useCallback(() => {
     if (!state.reservationSlot || !state.selectedRoom) return;
@@ -102,8 +120,8 @@ export function useBookingState() {
   }, []);
 
   const reportOccupied = useCallback(() => {
-    setState((s) => ({ ...s, screen: "report-done" }));
-  }, []);
+    navigateTo("report-done");
+  }, [navigateTo]);
 
   const findSpace = useCallback(() => {
     setState((s) => ({
@@ -163,5 +181,6 @@ export function useBookingState() {
     canExtend,
     extensionAvailable,
     switchGroupSize,
+    goBack,
   };
 }

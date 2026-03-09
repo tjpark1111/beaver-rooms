@@ -1,11 +1,25 @@
-const Header = () => {
+import { ArrowLeft } from "lucide-react";
+
+interface HeaderProps {
+  onBack?: () => void;
+}
+
+const Header = ({ onBack }: HeaderProps) => {
   return (
     <header className="bg-primary px-4 py-3 flex items-center justify-between">
-      <img
-        src="/images/beaver-logo.png"
-        alt="Beaver Logo"
-        className="h-10 w-10 object-contain"
-      />
+      <div className="w-10 h-10 flex items-center justify-start">
+        {onBack ? (
+          <button onClick={onBack} className="text-primary-foreground p-1" aria-label="Go back">
+            <ArrowLeft size={24} />
+          </button>
+        ) : (
+          <img
+            src="/images/beaver-logo.png"
+            alt="Beaver Logo"
+            className="h-10 w-10 object-contain"
+          />
+        )}
+      </div>
       <h1 className="text-primary-foreground font-bold text-xl tracking-tight">
         Beaver Rooms
       </h1>
