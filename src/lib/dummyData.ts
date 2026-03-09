@@ -128,3 +128,16 @@ export function formatTime(date: Date): string {
 export function formatTimeRange(start: Date, end: Date): string {
   return `${formatTime(start)}-${formatTime(end)}`;
 }
+
+export function generateLaterSlots(groupSize: GroupSize): TimeSlot[] {
+  const nowRounded = roundUpToQuarterHourEDT();
+  const duration = groupSize === "solo" ? 30 : 60;
+  const slots: TimeSlot[] = [];
+  // Generate slots every 30 minutes for the next 8 hours
+  for (let i = 0; i < 16; i++) {
+    const start = new Date(nowRounded.getTime() + i * 30 * 60 * 1000);
+    const end = new Date(start.getTime() + duration * 60 * 1000);
+    slots.push({ start, end });
+  }
+  return slots;
+}
