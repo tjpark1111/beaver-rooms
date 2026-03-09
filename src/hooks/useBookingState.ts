@@ -37,6 +37,7 @@ export function useBookingState() {
   const [state, setState] = useState<BookingState>({
     screen: "who-coming",
     groupSize: null,
+    whenChoice: null,
     selectedRoom: null,
     currentSlot: freeSlot,
     reservationSlot: null,
