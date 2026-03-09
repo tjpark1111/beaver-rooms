@@ -7,7 +7,7 @@ interface HeaderProps {
 const Header = ({ onBack }: HeaderProps) => {
   return (
     <header className="bg-primary px-4 py-3 flex items-center justify-between">
-      <div className="w-10 h-10 flex items-center justify-start">
+      <div className="w-20 h-20 flex items-center justify-start">
         {onBack ? (
           <button onClick={onBack} className="text-primary-foreground p-1" aria-label="Go back">
             <ArrowLeft size={24} />
@@ -16,7 +16,7 @@ const Header = ({ onBack }: HeaderProps) => {
           <img
             src="/images/beaver-logo.png"
             alt="Beaver Logo"
-            className="h-10 w-10 object-contain"
+            className="h-20 w-20 object-contain"
           />
         )}
       </div>
