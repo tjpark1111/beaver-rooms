@@ -2,9 +2,22 @@ import { ArrowLeft } from "lucide-react";
 
 interface HeaderProps {
   onBack?: () => void;
+  isHome?: boolean;
 }
 
-const Header = ({ onBack }: HeaderProps) => {
+const Header = ({ onBack, isHome }: HeaderProps) => {
+  if (isHome) {
+    return (
+      <header className="bg-primary px-4 py-3 flex items-center justify-center">
+        <img
+          src="/images/beaver-rooms-logo.png"
+          alt="Beaver Rooms"
+          className="h-12 w-auto object-contain"
+        />
+      </header>
+    );
+  }
+
   return (
     <header className="bg-primary px-4 py-3 flex items-center justify-between">
       <div className="w-10 h-10 flex items-center justify-start">
