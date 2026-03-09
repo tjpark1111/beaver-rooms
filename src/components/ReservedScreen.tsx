@@ -22,19 +22,6 @@ const ReservedScreen = ({ room, slot, isLater, onCheckIn, onReportOccupied }: Re
   }, [isLater]);
 
   const checkInDisabled = isLater && now < slot.start;
-    <div className="flex flex-col items-center px-6 pt-10">
-      <div className="bg-card rounded-2xl shadow-md p-6 w-full max-w-xs text-center">
-        <MapPin className="h-8 w-8 text-primary mx-auto mb-2" />
-        <h2 className="text-2xl font-bold text-foreground">
-          {room.building}-{room.number}
-        </h2>
-        <div className="flex items-center justify-center gap-2 mt-2 text-muted-foreground">
-          <Clock className="h-4 w-4" />
-          <span className="text-base">{formatTimeRange(slot.start, slot.end)}</span>
-        </div>
-        <p className="text-sm text-muted-foreground mt-3">
-          {isLater ? "Reserved — remember to check in later when you enter your room" : "Reserved — head to the room now"}
-        </p>
   return (
     <div className="flex flex-col items-center px-6 pt-10">
       <div className="bg-card rounded-2xl shadow-md p-6 w-full max-w-xs text-center">
