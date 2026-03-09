@@ -6,11 +6,12 @@ import { Clock, MapPin } from "lucide-react";
 interface ReservedScreenProps {
   room: Room;
   slot: TimeSlot;
+  isLater: boolean;
   onCheckIn: () => void;
   onReportOccupied: () => void;
 }
 
-const ReservedScreen = ({ room, slot, onCheckIn, onReportOccupied }: ReservedScreenProps) => {
+const ReservedScreen = ({ room, slot, isLater, onCheckIn, onReportOccupied }: ReservedScreenProps) => {
   return (
     <div className="flex flex-col items-center px-6 pt-10">
       <div className="bg-card rounded-2xl shadow-md p-6 w-full max-w-xs text-center">
@@ -23,7 +24,7 @@ const ReservedScreen = ({ room, slot, onCheckIn, onReportOccupied }: ReservedScr
           <span className="text-base">{formatTimeRange(slot.start, slot.end)}</span>
         </div>
         <p className="text-sm text-muted-foreground mt-3">
-          Reserved — head to the room now
+          {isLater ? "Reserved — remember to check in later when you enter your room" : "Reserved — head to the room now"}
         </p>
       </div>
 

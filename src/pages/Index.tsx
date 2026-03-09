@@ -47,6 +47,7 @@ const Index = () => {
           <ReservedScreen
             room={state.selectedRoom}
             slot={state.reservationSlot}
+            isLater={state.whenChoice === "later"}
             onCheckIn={checkIn}
             onReportOccupied={reportOccupied}
           />
