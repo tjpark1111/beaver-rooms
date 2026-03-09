@@ -120,8 +120,8 @@ export function useBookingState() {
   }, []);
 
   const reportOccupied = useCallback(() => {
-    setState((s) => ({ ...s, screen: "report-done" }));
-  }, []);
+    navigateTo("report-done");
+  }, [navigateTo]);
 
   const findSpace = useCallback(() => {
     setState((s) => ({
