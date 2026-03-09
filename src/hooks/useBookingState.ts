@@ -195,6 +195,7 @@ export function useBookingState() {
       setState((s) => ({
         ...s,
         groupSize: newSize,
+        whenChoice: null,
         selectedRoom: room,
         reservationSlot: slot,
         screen: "who-coming",
