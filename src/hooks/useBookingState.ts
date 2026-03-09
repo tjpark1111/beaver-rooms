@@ -210,6 +210,8 @@ export function useBookingState() {
     state,
     freeSlot,
     selectGroupSize,
+    selectWhen,
+    selectLaterSlot,
     reserve,
     checkIn,
     timesUp,
