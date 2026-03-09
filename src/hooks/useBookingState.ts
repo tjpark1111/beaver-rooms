@@ -83,12 +83,12 @@ export function useBookingState() {
   }, [navigateTo]);
 
   const checkIn = useCallback(() => {
-    setState((s) => ({ ...s, screen: "checked-in", isCheckedIn: true }));
-  }, []);
+    navigateTo("checked-in", { isCheckedIn: true });
+  }, [navigateTo]);
 
   const timesUp = useCallback(() => {
-    setState((s) => ({ ...s, screen: "times-up" }));
-  }, []);
+    navigateTo("times-up");
+  }, [navigateTo]);
 
   const extend = useCallback(() => {
     if (!state.reservationSlot || !state.selectedRoom) return;
