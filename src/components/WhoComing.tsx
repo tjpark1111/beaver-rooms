@@ -14,6 +14,11 @@ interface WhoComingProps {
 const WhoComing = ({ onSelect, onReserve, selectedSize, selectedRoom, reservationSlot }: WhoComingProps) => {
   return (
     <div className="flex flex-col items-center px-6 pt-8">
+      <img
+        src="/images/beaver-rooms-logo.png"
+        alt="Beaver Rooms"
+        className="w-48 h-auto object-contain mb-4"
+      />
       <h2 className="text-2xl font-bold text-foreground mb-6">Who's coming?</h2>
 
       <div className="flex flex-col gap-3 w-full max-w-xs">
